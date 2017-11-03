@@ -18,8 +18,7 @@
 
 FROM golang:1.8 as builder
 
-RUN mkdir -p /usr/src/build/src/virt-manifest && \
-    mkdir -p /usr/src/build/src/kubevirt.io/kubevirt && \
+RUN mkdir -p /usr/src/build/src/kubevirt.io/kubevirt && \
     mkdir -p /usr/src/build/pkg && \ 
     mkdir -p /usr/src/build/bin
 
@@ -27,7 +26,7 @@ ENV GOPATH=/usr/src/build
 
 WORKDIR /usr/src/build/src
 COPY vendor .
-COPY . /usr/src/build/src/kubevirt.io/kubevirt/
+COPY . kubevirt.io/kubevirt/
 
 WORKDIR kubevirt.io/kubevirt/cmd/virt-launcher
 RUN go build virt-launcher.go
@@ -40,4 +39,4 @@ LABEL maintainer="The KubeVirt Project <kubevirt-dev@googlegroups.com>"
 WORKDIR /usr/local/bin
 COPY --from=builder /usr/src/build/src/kubevirt.io/kubevirt/cmd/virt-launcher/virt-launcher .
 
-ENTRYPOINT [ "./virt-manifest" ]
+ENTRYPOINT [ "./virt-launcher" ]
