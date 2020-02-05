@@ -1300,7 +1300,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			Expect(err).ToNot(HaveOccurred(), "Cannot generate VMs manifest")
 
 			By("Creating VM with DataVolumeTemplate entry with k8s client binary")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Verifying VM is created")
@@ -1309,7 +1309,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			Expect(newVM.Name).To(Equal(vm.Name), "New VM was not created")
 
 			By("Creating the VM again")
-			_, stdErr, err := tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, stdErr, err := tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).To(HaveOccurred())
 
 			Expect(strings.HasPrefix(stdErr, "Error from server (AlreadyExists): error when creating")).To(BeTrue(), "command should error when creating VM second time")
@@ -1323,7 +1323,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			Expect(err).ToNot(HaveOccurred(), "Cannot generate VMs manifest")
 
 			By("Creating VM using k8s client binary")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Waiting for VMI to start")
@@ -1355,7 +1355,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			Expect(err).ToNot(HaveOccurred(), "Cannot generate VM's manifest")
 
 			By("Creating VM using k8s client binary")
-			_, _, err := tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err := tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Invoking virtctl start")
@@ -1392,7 +1392,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			Expect(err).ToNot(HaveOccurred(), "Cannot generate VM's manifest")
 
 			By("Creating VM using k8s client binary")
-			_, _, err := tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err := tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Waiting for VMI to start")
@@ -1406,7 +1406,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 			waitForResourceDeletion(k8sClient, "vms", thisVm.GetName())
 
 			By("Creating same VM using k8s client binary and same manifest")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Waiting for VMI to start")
@@ -1461,7 +1461,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 					Expect(err).ToNot(HaveOccurred(), "Cannot generate VMs manifest")
 
 					By("Creating VM using k8s client binary")
-					stdOut, stdErr, err := tests.RunCommand(k8sClient, "--token", token, "create", "-f", vmJson)
+					stdOut, stdErr, err := tests.RunCommand(k8sClient, "--token", token, "apply", "-f", vmJson)
 					Expect(err).ToNot(HaveOccurred(), "ERR: %s", stdOut+stdErr)
 
 					By("Waiting for VMI to start")
@@ -1511,7 +1511,7 @@ var _ = Describe("[rfe_id:1177][crit:medium][vendor:cnv-qe@redhat.com][level:com
 					Expect(err).ToNot(HaveOccurred(), "Cannot generate VMs manifest")
 
 					By("Creating VM using k8s client binary")
-					stdOut, stdErr, err := tests.RunCommand(k8sClient, "--token", token, "create", "-f", vmJson)
+					stdOut, stdErr, err := tests.RunCommand(k8sClient, "--token", token, "apply", "-f", vmJson)
 					Expect(err).To(HaveOccurred(), "The call for VM creation should fail")
 
 					expectedError := fmt.Sprintf("User \"system:serviceaccount:%s:testuser\" cannot create", tests.NamespaceTestDefault)

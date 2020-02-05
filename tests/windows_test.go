@@ -287,7 +287,7 @@ var _ = Describe("Windows VirtualMachineInstance", func() {
 
 		It("[test_id:223]should succeed to start a vmi", func() {
 			By("Starting the vmi via kubectl command")
-			_, _, err = tests.RunCommand("kubectl", "create", "-f", yamlFile)
+			_, _, err = tests.RunCommand("kubectl", "apply", "-f", yamlFile)
 			Expect(err).ToNot(HaveOccurred())
 
 			tests.WaitForSuccessfulVMIStartWithTimeout(windowsVMI, 360)
@@ -295,7 +295,7 @@ var _ = Describe("Windows VirtualMachineInstance", func() {
 
 		It("[test_id:239]should succeed to stop a vmi", func() {
 			By("Starting the vmi via kubectl command")
-			_, _, err = tests.RunCommand("kubectl", "create", "-f", yamlFile)
+			_, _, err = tests.RunCommand("kubectl", "apply", "-f", yamlFile)
 			Expect(err).ToNot(HaveOccurred())
 
 			tests.WaitForSuccessfulVMIStartWithTimeout(windowsVMI, 360)

@@ -152,7 +152,7 @@ var _ = Describe("Templates", func() {
 				for param, value := range templateParams {
 					ocProcessCommand = append(ocProcessCommand, "-p", fmt.Sprintf("%s=%s", param, value))
 				}
-				out, stderr, err := tests.RunCommandPipe(ocProcessCommand, []string{"oc", "create", "-f", "-"})
+				out, stderr, err := tests.RunCommandPipe(ocProcessCommand, []string{"oc", "apply", "-f", "-"})
 				ExpectWithOffset(1, err).ToNot(HaveOccurred(), "failed to create VirtualMachine %q via command \"%s | oc create -f -\": %s: %v", vmName, strings.Join(ocProcessCommand, " "), out+stderr, err)
 				ExpectWithOffset(1, out).To(MatchRegexp(`"?%s"? created\n`, vmName), "command \"%s | oc create -f -\" did not print expected message: %s", strings.Join(ocProcessCommand, " "), out+stderr)
 				By("Checking if the VirtualMachine exists")
@@ -170,7 +170,7 @@ var _ = Describe("Templates", func() {
 				for param, value := range templateParams {
 					ocProcessCommand = append(ocProcessCommand, "-p", fmt.Sprintf("%s=%s", param, value))
 				}
-				out, stderr, err := tests.RunCommandPipe(ocProcessCommand, []string{"oc", "create", "-f", "-"})
+				out, stderr, err := tests.RunCommandPipe(ocProcessCommand, []string{"oc", "apply", "-f", "-"})
 				ExpectWithOffset(1, err).To(HaveOccurred(), "creation of VirtualMachine %q via command \"%s | oc create -f -\" succeeded: %s: %v", vmName, strings.Join(ocProcessCommand, " "), out+stderr, err)
 			}
 		}

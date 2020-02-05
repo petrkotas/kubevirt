@@ -311,7 +311,7 @@ var _ = Describe("DataVolume Integration", func() {
 
 		It("[test_id:836] Creating a VM with DataVolumeTemplates should succeed.", func() {
 			By("Creating VM with DataVolumeTemplate entry with k8s client binary")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Verifying DataVolume succeeded and is created with VM owner reference")
@@ -330,7 +330,7 @@ var _ = Describe("DataVolume Integration", func() {
 
 		It("[test_id:837]deleting VM with cascade=true should automatically delete DataVolumes and VMI owned by VM.", func() {
 			By("Creating VM with DataVolumeTemplate entry with k8s client binary")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Verifying DataVolume succeeded and is created with VM owner reference")
@@ -365,7 +365,7 @@ var _ = Describe("DataVolume Integration", func() {
 			tests.SkipIfOpenShiftAndBelowOrEqualVersion("cascade=false delete does not work with CRD multi version support in ocp 3.11", "1.11.0")
 
 			By("Creating VM with DataVolumeTemplate entry with k8s client binary")
-			_, _, err = tests.RunCommand(k8sClient, "create", "-f", vmJson)
+			_, _, err = tests.RunCommand(k8sClient, "apply", "-f", vmJson)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Verifying DataVolume succeeded and is created with VM owner reference")
@@ -534,7 +534,7 @@ var _ = Describe("DataVolume Integration", func() {
 				byteReader := bytes.NewReader(vmBytes)
 
 				// this should fail because don't have permission
-				stdOut, stdErr, err := tests.RunCommandWithNSAndInput(vm.Namespace, byteReader, "kubectl", "create", "-f", "-")
+				stdOut, stdErr, err := tests.RunCommandWithNSAndInput(vm.Namespace, byteReader, "kubectl", "apply", "-f", "-")
 				if err == nil {
 					fmt.Printf("command should have failed\nstdOut\n%s\nstdErr\n%s\n", stdOut, stdErr)
 					Expect(err).To(HaveOccurred())
@@ -547,7 +547,7 @@ var _ = Describe("DataVolume Integration", func() {
 				// sometimes it takes a bit for permission to actually be applied so eventually
 				Eventually(func() bool {
 					byteReader = bytes.NewReader(vmBytes)
-					stdOut, stdErr, err = tests.RunCommandWithNSAndInput(vm.Namespace, byteReader, "kubectl", "create", "-f", "-")
+					stdOut, stdErr, err = tests.RunCommandWithNSAndInput(vm.Namespace, byteReader, "kubectl", "apply", "-f", "-")
 					if err != nil {
 						fmt.Printf("command should have succeeded maybe new permissions not applied yet\nstdOut\n%s\nstdErr\n%s\n", stdOut, stdErr)
 						return false
